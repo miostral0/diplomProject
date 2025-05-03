@@ -1,0 +1,9 @@
+.form-w {
+    width: 50%;
+}
+
+.form-w .form-control {
+    border:1px solid silver;
+    border-radius: 3px;
+    padding-left:12px;
+}
