@@ -13,7 +13,8 @@ class Employee extends Model
         'last_name',
         'surname',
         'passport_number',
-        'personal_matter_number'
+        'personal_matter_number',
+        'command_id',
     ];
 
     public function command()
