@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CommandController extends Controller
 {
+    
     public function index()
     {
         $commands = Command::query()->paginate(10);
@@ -46,6 +47,36 @@ class CommandController extends Controller
 
     public function store_info(Request $request)
     {
+{
+    $validated = $request->validate([
+        'command_id' => 'required|integer|exists:commands,id',
+        'for_user' => 'required|string|in:student,employee',
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'nullable|string|max:255',
+        'surname' => 'nullable|string|max:255',
+    ]);
+
+    if ($validated['for_user'] == 'student') {
+        Student::create([
+            'command_id' => $validated['command_id'],
+            'first_name' => $validated['first_name']?? null,
+            'last_name' => $validated['last_name']?? null,
+            'surname' => $validated['surname']?? null,
+        ]);
+    } elseif ($validated['for_user'] == 'employee') {
+        Employee::create([
+            'command_id' => $validated['command_id'],
+            'first_name' => $validated['first_name']?? null,
+            'last_name' => $validated['last_name']?? null,
+            'surname' => $validated['surname']?? null,
+        ]);
+    } else {
+        return redirect()->back()->with('fail', 'Տվյալները չեն պահպանվել');
+    }
+
+    return redirect()->back()->with('success', 'Տվյալները պահպանվել են');
+}
+
         $data = $request->except('_token');
         if($data['for_user'] == 'student') {
             Student::create([

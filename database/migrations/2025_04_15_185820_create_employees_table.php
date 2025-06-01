@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('surname');
+            $table->string('surname')->nullable();
             $table->string('passport_number')->nullable();
             $table->string('personal_matter_number')->nullable();
             $table->timestamps();
