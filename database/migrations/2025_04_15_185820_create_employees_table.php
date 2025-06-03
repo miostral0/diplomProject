@@ -11,18 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employees', function (Blueprint $table) {
-            $table->id();
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('surname')->nullable();
-            $table->string('passport_number')->nullable();
-            $table->string('personal_matter_number')->nullable();
-            $table->timestamps();
-            $table->unsignedBigInteger('command_id');
-            $table->foreign('command_id')
-                ->references('id')
-                ->on('commands')->onDelete('cascade');
+        // You need doctrine/dbal installed to use change()
+        Schema::table('commands', function (Blueprint $table) {
+            $table->string('description')->nullable()->change();
         });
     }
 
@@ -31,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employees');
+        Schema::table('commands', function (Blueprint $table) {
+            $table->string('description')->nullable(false)->change();
+        });
     }
 };

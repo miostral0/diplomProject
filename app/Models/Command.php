@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Command extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'number',
         'user_id',
@@ -15,6 +16,11 @@ class Command extends Model
         'for_user',
         'date',
         'description'
+    ];
+
+    // Cast 'date' to a Carbon (datetime) instance automatically
+    protected $casts = [
+        'date' => 'datetime',
     ];
 
     public function students()

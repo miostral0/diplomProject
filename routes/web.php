@@ -3,15 +3,16 @@
 use App\Http\Controllers\CommandController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
-
+use App\Models\Command; 
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $commands = Command::latest()->take(10)->get();
+    return view('dashboard', compact('commands'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -27,6 +28,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/create-info', [CommandController::class, 'store_info'])->name('command.store_info');
         Route::get('/{command}', [CommandController::class, 'show'])->name('command.show');
         Route::delete('/{command}', [CommandController::class, 'destroy'])->name('command.destroy');
+        Route::delete('/commands/{command}/students/{student}', [CommandController::class, 'removeStudent'])->name('command.removeStudent');
+        Route::delete('/commands/{command}/employees/{employee}', [CommandController::class, 'removeEmployee'])->name('command.removeEmployee');
+
 
     });
 });

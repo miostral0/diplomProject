@@ -84,6 +84,26 @@ class CommandController extends Controller
     
         return redirect()->back()->with('success', 'Տվյալները պահպանվել են');
     }
+
+    public function removeStudent(Command $command, Student $student)
+    {
+        if ($student->command_id === $command->id) {
+            $student->command_id = null;
+            $student->save();
+        }
+    
+        return redirect()->route('command.show', $command->id)->with('success', 'Ուսանողը հեռացվեց հրամանից։');
+    }
+    
+    public function removeEmployee(Command $command, Employee $employee)
+    {
+        if ($employee->command_id === $command->id) {
+            $employee->command_id = null;
+            $employee->save();
+        }
+    
+        return redirect()->route('command.show', $command->id)->with('success', 'Աշխատակիցը հեռացվեց հրամանից։');
+    }
     
 
     public function destroy(Command $command)

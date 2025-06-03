@@ -39,15 +39,24 @@
                 <h3 class="text-xl font-semibold mb-2">Ուսանողներ ({{ $command->students->count() }})</h3>
                 <ul class="list-disc list-inside text-gray-700">
                     @foreach ($command->students as $student)
-                        <li class="mb-2">
-                            {{ $student->last_name }} {{ $student->first_name }} {{ $student->surname }}
-                            <br>
-                            <span class="text-sm text-gray-500">
-                                Անձը հաստատող փաստաթուղթ՝ {{ $student->passport_number ?? '—' }}
-                            </span><br>
-                            <span class="text-sm text-gray-500">
-                                Անձնական գործի համարը՝ {{ $student->personal_matter_number ?? '—' }}
-                            </span>
+                        <li class="mb-2 flex justify-between items-center">
+                            <div>
+                                {{ $student->last_name }} {{ $student->first_name }} {{ $student->surname }}
+                                <br>
+                                <span class="text-sm text-gray-500">
+                                    Անձը հաստատող փաստաթուղթ՝ {{ $student->passport_number ?? '—' }}
+                                </span><br>
+                                <span class="text-sm text-gray-500">
+                                    Անձնական գործի համարը՝ {{ $student->personal_matter_number ?? '—' }}
+                                </span>
+                            </div>
+                            <form method="POST" action="{{ route('command.removeStudent', [$command->id, $student->id]) }}" onsubmit="return confirm('Վստա՞հ եք, որ ցանկանում եք հեռացնել այս ուսանողին հրամանից։')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="ml-4 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-1 px-3 rounded">
+                                    Հեռացնել
+                                </button>
+                            </form>
                         </li>
                     @endforeach
                 </ul>
@@ -60,12 +69,19 @@
                 <h3 class="text-xl font-semibold mb-2">Աշխատակիցներ ({{ $command->employees->count() }})</h3>
                 <ul class="list-disc list-inside text-gray-700">
                     @foreach ($command->employees as $employee)
-                        <li class="mb-2">
-                            {{ $employee->last_name }} {{ $employee->first_name }} {{ $employee->surname }}
-                            <br>
-                            <span class="text-sm text-gray-500">
-                                Անձը հաստատող փաստաթուղթ՝ {{ $employee->passport_number ?? '—' }}
-                            </span><br>
+                        <li class="mb-2 flex justify-between items-center">
+                            <div>
+                                {{ $employee->last_name }} {{ $employee->first_name }} {{ $employee->surname }}
+                                <br>
+                                <span class="text-sm text-gray-500"></span><br>
+                            </div>
+                            <form method="POST" action="{{ route('command.removeEmployee', [$command->id, $employee->id]) }}" onsubmit="return confirm('Վստա՞հ եք, որ ցանկանում եք հեռացնել այս աշխատակցին հրամանից։')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="ml-4 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-1 px-3 rounded">
+                                    Հեռացնել
+                                </button>
+                            </form>
                         </li>
                     @endforeach
                 </ul>
